@@ -43,6 +43,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
                 </li>
+                  <li class="nav-item">
+                <a class="nav-link" href="{% url 'cart_detail' %}">View Cart</a>
+              </li>
               {% else %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'account_login' %}">Login</a>
@@ -50,9 +53,7 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
                 </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'cart_detail' %}">Cart</a>
-              </li>
+
               {% endif %}
             </ul>
           </div>
