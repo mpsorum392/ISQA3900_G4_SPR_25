@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>G4Threads</title>
+  <link href="{% static '/css/base.css' %}" rel="stylesheet">
+  <!-- Optionally include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <!-- Flex container for sticky footer if desired -->
+  <div class="wrapper d-flex flex-column min-vh-100">
+
+    <!-- Header / Navigation -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <!-- Logo -->
+          <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <img src="{% static 'img/logo.png' %}" alt="G4Threads Logo" style="max-height: 40px;">
+            <span class="ms-2 fw-bold">G4Threads</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto me-4">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'products_by_category' 'mens' %}">Mens</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'products_by_category' 'womens' %}">Womens</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'products_by_category' 'children' %}">Children</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+                </li>
+                  <li class="nav-item">
+                <a class="nav-link" href="{% url 'cart_detail' %}">View Cart</a>
+              </li>
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+                </li>
+
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content flex-fill">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-light py-2 border-top">
+      <div class="container text-center">
+        <p class="mb-0 small">&copy; {% now "Y" %} G4Threads. All Rights Reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

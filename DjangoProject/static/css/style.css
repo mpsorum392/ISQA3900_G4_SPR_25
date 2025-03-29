@@ -1,0 +1,24 @@
+/* Ensure the html and body occupy full height */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Wrapper takes full viewport height, using Flexbox */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content grows to fill available space */
+.content {
+  flex: 1;
+}
+
+/* Sticky footer styling */
+.sticky-footer {
+  background-color: #f8f9fa;
+  padding: 2rem 0;
+  text-align: center;
+}
