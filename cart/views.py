@@ -1,42 +1,43 @@
-# cart/views.py
-
 from django.shortcuts import render, redirect, get_object_or_404
-from django.conf import settings
 from products.models import Product
-
 
 def add_to_cart(request, product_id):
     """
     Adds a product to the session-based cart.
+    Stores each product as a dict with 'quantity' and 'price'.
     """
     product = get_object_or_404(Product, pk=product_id)
-
-    # Retrieve the cart from the session or create an empty dict
     cart = request.session.get('cart', {})
 
-    # Increase quantity if product already in cart, otherwise set to 1
-    if str(product_id) in cart:
-        cart[str(product_id)] += 1
+    product_key = str(product_id)
+    if product_key in cart:
+        # Increase the quantity if the product is already in the cart.
+        cart[product_key]['quantity'] += 1
     else:
-        cart[str(product_id)] = 1
+        # Otherwise, initialize it with quantity 1 and its price.
+        cart[product_key] = {
+            'quantity': 1,
+            'price': str(product.price)  # Store as a string for session serialization.
+        }
 
-    # Save cart back to session
+    # Save the cart back to the session.
     request.session['cart'] = cart
-
-    # Redirect to cart detail or wherever you'd like
     return redirect('cart_detail')
 
 
 def cart_detail(request):
     """
-    Shows the cart items and total price.
+    Shows the cart items and calculates the total price.
     """
     cart = request.session.get('cart', {})
     cart_items = []
     total = 0
 
-    for product_id, quantity in cart.items():
+    # Iterate over the cart dictionary.
+    for product_id, item in cart.items():
         product = get_object_or_404(Product, pk=product_id)
+        quantity = item.get('quantity', 0)
+        # Multiply product.price (a Decimal) with quantity (an integer)
         subtotal = product.price * quantity
         total += subtotal
         cart_items.append({
