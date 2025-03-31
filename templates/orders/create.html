@@ -11,7 +11,7 @@
     <div class="order-complete">
       <h3>Thank you for your order!</h3>
       <p>Your order number is: <strong>{{ order_id }}</strong></p>
-      <p><a href="{% url 'order_complete' order_id=order_id %}">View Order Details</a></p>
+      <p><a href="{% url 'admin_order_detail' order_id=order_id %}">View Order Details</a></p>
     </div>
   {% else %}
     <div class="order-info">
