@@ -115,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CART_SESSION_ID = 'cart'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
