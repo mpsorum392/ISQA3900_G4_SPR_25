@@ -23,9 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@z$q375ar)y0j^@_$=o%u5g-q+11y%)kz7k2^zr)l_&k$7zedp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#updated for load to pythonanywhere
+DEBUG = False
 
-ALLOWED_HOSTS = []
+#edit to allow pythonanywhere running
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
 
 # Application definition
@@ -160,3 +162,9 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
 # Redirect URL after successful login
 LOGIN_REDIRECT_URL = '/'
+
+#added for support to load to pythonanywhere
+import os
+MEDIA_URL = 'media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
