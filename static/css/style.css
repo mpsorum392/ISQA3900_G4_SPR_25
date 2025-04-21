@@ -1,0 +1,22 @@
+/* static/css/style.css */
+
+/* Navbar search input narrower */
+.navbar .form-control {
+  max-width: 220px;
+}
+
+/* Hover effect on nav-links */
+.nav-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Hero section spacing (if you use it) */
+.hero {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+.hero .btn {
+  min-width: 180px;
+}

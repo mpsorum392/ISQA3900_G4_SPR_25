@@ -1,4 +1,4 @@
-<!-- templates/cart/cart_detail.html -->
+{# templates/cart/cart_detail.html #}
 {% extends 'base.html' %}
 {% load static %}
 
@@ -25,11 +25,20 @@
       </tbody>
     </table>
     <h4>Total: ${{ total }}</h4>
-    <a href="{% url 'order_create' %}" class="btn btn-primary">Proceed to Checkout</a>
-      <a href="{% url 'home' %}" class="btn btn-primary">Continue Shopping</a>
+
+    {# Update the URL to use the orders namespace #}
+    <a href="{% url 'orders:order_create' %}" class="btn btn-primary">
+      Proceed to Checkout
+    </a>
+    <a href="{% url 'home' %}" class="btn btn-primary">
+      Continue Shopping
+    </a>
   {% else %}
     <p>Your cart is empty.</p>
-      <a href="{% url 'home' %}" class="btn btn-primary">Let's Go Shopping</a>
+    <a href="{% url 'home' %}" class="btn btn-primary">
+      Let's Go Shopping
+    </a>
   {% endif %}
 </div>
 {% endblock %}
+

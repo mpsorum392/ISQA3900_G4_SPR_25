@@ -1,53 +1,69 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
 
-def add_to_cart(request, product_id):
+
+def cart_add(request, product_id):
     """
-    Adds a product to the session-based cart.
-    Stores each product as a dict with 'quantity' and 'price'.
+    Adds one unit of the given product to the session-based cart.
     """
     product = get_object_or_404(Product, pk=product_id)
     cart = request.session.get('cart', {})
 
-    product_key = str(product_id)
-    if product_key in cart:
-        # Increase the quantity if the product is already in the cart.
-        cart[product_key]['quantity'] += 1
+    key = str(product_id)
+    if key in cart:
+        cart[key]['quantity'] += 1
     else:
-        # Otherwise, initialize it with quantity 1 and its price.
-        cart[product_key] = {
+        cart[key] = {
             'quantity': 1,
-            'price': str(product.price)  # Store as a string for session serialization.
+            'price': str(product.price),  # Decimal → string for session serialization
         }
 
-    # Save the cart back to the session.
     request.session['cart'] = cart
-    return redirect('cart_detail')
+    # mark session as modified to ensure it gets saved
+    request.session.modified = True
+
+    return redirect('cart:cart_detail')
+
+
+def cart_remove(request, product_id):
+    """
+    Removes the given product entirely from the session-based cart.
+    """
+    cart = request.session.get('cart', {})
+    key = str(product_id)
+
+    if key in cart:
+        del cart[key]
+        request.session['cart'] = cart
+        request.session.modified = True
+
+    return redirect('cart:cart_detail')
 
 
 def cart_detail(request):
     """
-    Shows the cart items and calculates the total price.
+    Renders the cart: a list of items plus the total price.
     """
     cart = request.session.get('cart', {})
     cart_items = []
     total = 0
 
-    # Iterate over the cart dictionary.
-    for product_id, item in cart.items():
-        product = get_object_or_404(Product, pk=product_id)
+    for pid_str, item in cart.items():
+        # pid_str comes from session; convert back to int for lookup
+        pid = int(pid_str)
+        product = get_object_or_404(Product, pk=pid)
         quantity = item.get('quantity', 0)
-        # Multiply product.price (a Decimal) with quantity (an integer)
         subtotal = product.price * quantity
         total += subtotal
         cart_items.append({
-            'product': product,
+            'product':  product,
             'quantity': quantity,
-            'subtotal': subtotal
+            'subtotal': subtotal,
         })
 
-    context = {
+    return render(request, 'cart/cart_detail.html', {
         'cart_items': cart_items,
-        'total': total,
-    }
-    return render(request, 'cart/cart_detail.html', context)
+        'total':      total,
+    })
+
+

@@ -1,0 +1,38 @@
+{# templates/orders/receipt.html #}
+{% extends "base.html" %}
+
+{% block title %}Receipt — Order {{ order.id }}{% endblock %}
+
+{% block content %}
+  <h1>Thank you, {{ order.first_name }}!</h1>
+  <p>Order #{{ order.id }} placed on {{ order.created|date:"F j, Y, g:i a" }}</p>
+
+  <h2>Payment Details</h2>
+  <p><strong>Status:</strong> {{ order.payment.status }}</p>
+  <p><strong>Transaction ID:</strong> {{ order.payment.transaction_id }}</p>
+  <p><strong>Amount Paid:</strong> ${{ order.payment.total }}</p>
+  <p><strong>Paid On:</strong> {{ order.payment.created|date:"F j, Y, g:i a" }}</p>
+
+  <h2>Shipping Information</h2>
+  <address>
+    {{ order.first_name }} {{ order.last_name }}<br>
+    {{ order.address }}<br>
+    {{ order.postal_code }} {{ order.city }}<br>
+    <a href="mailto:{{ order.email }}">{{ order.email }}</a>
+  </address>
+
+  <h2>Items Purchased</h2>
+  <ul>
+    {% for item in order.items.all %}
+      <li>
+        {{ item.quantity }} × {{ item.product.name }}
+        @ ${{ item.price }} each = ${{ item.get_cost }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <p><strong>Order Total:</strong> ${{ order.get_total_cost }}</p>
+
+  <a href="{% url 'home' %}" class="btn btn-primary">Return to Shop</a>
+{% endblock %}
+

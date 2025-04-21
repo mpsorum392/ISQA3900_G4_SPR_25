@@ -1,36 +1,25 @@
+{# templates/orders/create.html #}
 {% extends "base.html" %}
 
-{% block title %}
-  Checkout
-{% endblock %}
+{% block title %}Place Your Order{% endblock %}
 
 {% block content %}
-  <h1>Checkout</h1>
+  <h1>Your Cart</h1>
+  <ul>
+    {% for item in cart %}
+      <li>{{ item.quantity }} × {{ item.product.name }} — ${{ item.total_price }}</li>
+    {% endfor %}
+  </ul>
+  <p><strong>Total: ${{ cart.get_total_price }}</strong></p>
 
-  {% if order_id %}
-    <div class="order-complete">
-      <h3>Thank you for your order!</h3>
-      <p>Your order number is: <strong>{{ order_id }}</strong></p>
-      <p><a href="{% url 'admin_order_detail' order_id=order_id %}">View Order Details</a></p>
-    </div>
-  {% else %}
-    <div class="order-info">
-      <h3>Your order</h3>
-      <ul>
-        {% for item in cart %}
-          <li>
-            {{ item.quantity }}x {{ item.product.name }}
-            <span>${{ item.total_price }}</span>
-          </li>
-        {% endfor %}
-      </ul>
-      <p>Total: ${{ cart.get_total_price }}</p>
-    </div>
-
-    <form action="." method="post" class="order-form">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <p><input type="submit" value="Place order"></p>
-    </form>
-  {% endif %}
+  <h2>Shipping &amp; Billing</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">
+      Continue to Payment
+    </button>
+  </form>
 {% endblock %}
+
+

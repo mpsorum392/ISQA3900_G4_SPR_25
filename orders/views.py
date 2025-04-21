@@ -1,18 +1,18 @@
-from django.urls import reverse
+from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Order, OrderItem
-from .forms import OrderCreateForm
-from cart.cart import Cart
 from django.contrib.admin.views.decorators import staff_member_required
-from products.models import Product  # Import the updated Product model
-from django.conf import settings
-from django.http import HttpResponse
-from django.template.loader import render_to_string
+
+from .models import Order, OrderItem
+from .forms import OrderCreateForm, CreditCardForm
+from cart.cart import Cart
+from billing.models import Payment
+
 
 @staff_member_required
 def admin_order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'admin/orders/order/detail.html', {'order': order})
+
 
 def order_create(request):
     cart = Cart(request)
@@ -21,22 +21,77 @@ def order_create(request):
         if form.is_valid():
             order = form.save()
             for item in cart:
-                # Create an OrderItem for each cart item.
                 OrderItem.objects.create(
                     order=order,
                     product=item['product'],
                     price=item['price'],
                     quantity=item['quantity']
                 )
-                # Update the product inventory using the "quantity" field.
-                item['product'].quantity = item['product'].quantity - item['quantity']
+                item['product'].quantity -= item['quantity']
                 item['product'].save()
-            # Clear the cart after processing the order.
             cart.clear()
-            # Store the order id in the session.
-            request.session['order_id'] = order.id
-
-            return render(request, 'orders/create.html', {'order_id': order.id})
+            return redirect('orders:checkout', order_id=order.id)
     else:
         form = OrderCreateForm()
-    return render(request, 'orders/create.html', {'cart': cart, 'form': form})
+
+    return render(request, 'orders/create.html', {
+        'cart': cart,
+        'form': form,
+    })
+
+
+def checkout(request, order_id):
+    """
+    Step 2: Show shipping form + fake‑CC form on GET,
+    process & immediately “confirm” payment on POST.
+    """
+    order = get_object_or_404(Order, id=order_id)
+
+    # Shipping form pre‑populated (so user can review/edit)
+    ship_form = OrderCreateForm(instance=order)
+
+    if request.method == 'POST':
+        cc_form = CreditCardForm(request.POST)
+        if cc_form.is_valid():
+            # 1) Create & confirm the dummy payment
+            payment = Payment.objects.create(
+                order=order,
+                variant='default',
+                description=f'Order #{order.id}',
+                total=order.get_total(),
+                tax=Decimal('0.00'),
+                currency='USD',
+            )
+            payment.change_status('confirmed')
+
+            # 2) Link & mark paid
+            order.payment = payment
+            order.paid    = True
+            order.save()
+
+            # 3) Redirect to receipt
+            return redirect('orders:receipt', order_id=order.id)
+    else:
+        cc_form = CreditCardForm()
+
+    return render(request, 'orders/checkout.html', {
+        'order':   order,
+        'form':    ship_form,
+        'cc_form': cc_form,
+    })
+
+
+def receipt(request, order_id):
+    """
+    Step 3: Display the outcome.
+    """
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'orders/receipt.html', {
+        'order': order,
+    })
+
+
+
+
+
+

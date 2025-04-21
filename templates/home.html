@@ -2,18 +2,38 @@
 {% load static %}
 
 {% block content %}
-<div class="container my-3">
+<div class="container my-5">
   <!-- Hero Section -->
-  <div class="position-relative text-center mb-4 hero-section">
-    <img src="{% static '/img/online_shop.jpg' %}" class="img-fluid w-100" alt="Hero Banner">
-    <div class="position-absolute top-50 start-50 translate-middle text-white hero-overlay-text" style="text-shadow: 2px 2px #000;">
-      <!-- Smaller heading -->
-      <h1 class="fw-bold mb-3" style="font-size: 2.5rem;">Welcome to G4Threads!</h1>
-      <p class="mb-4" style="font-size: 1.2rem;">Your destination for Mens, Womens, and Children’s apparel</p>
-      <a href="{% url 'products_by_category' 'mens' %}" class="btn btn-primary btn-lg">Shop Mens</a>
-        <a href="{% url 'products_by_category' 'womens' %}" class="btn btn-primary btn-lg">Shop Womens</a>
-        <a href="{% url 'products_by_category' 'children' %}" class="btn btn-primary btn-lg">Shop Childrens</a>
+  <div class="position-relative text-center mb-5 hero-section">
+    <img
+      src="{% static 'img/online_shop.jpg' %}"
+      class="img-fluid w-100 rounded"
+      alt="Hero Banner"
+    >
+    <div
+      class="position-absolute top-50 start-50 translate-middle text-white p-4 rounded"
+      style="background: rgba(0, 0, 0, 0.5);"
+    >
+      <h1 class="fw-bold mb-3 display-5">Welcome to G4Threads!</h1>
+      <p class="lead mb-4">
+        Your destination for Mens, Womens, and Children’s apparel
+      </p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a
+          href="{% url 'products:products_by_category' 'mens' %}"
+          class="btn btn-primary btn-lg"
+        >Shop Mens</a>
+        <a
+          href="{% url 'products:products_by_category' 'womens' %}"
+          class="btn btn-primary btn-lg"
+        >Shop Womens</a>
+        <a
+          href="{% url 'products:products_by_category' 'children' %}"
+          class="btn btn-primary btn-lg"
+        >Shop Children</a>
+      </div>
     </div>
   </div>
 </div>
 {% endblock %}
+
