@@ -149,3 +149,5 @@ PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {}),
 }
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

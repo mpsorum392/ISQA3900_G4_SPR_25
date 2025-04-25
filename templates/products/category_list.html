@@ -1,17 +1,22 @@
 {# templates/products/category_list.html #}
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
+
   <div class="container py-5">
     <h1 class="mb-4">{{ category.name }}</h1>
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
       {% for product in products %}
         <div class="col">
           <div class="card h-100 shadow-sm">
-            {% if product.image %}
-              <img src="{{ product.image.url }}"
-                   class="card-img-top"
-                   alt="{{ product.name }}">
-            {% endif %}
+          {% if product.image %}
+  <img src="{{ product.image.url }}"
+     class="card-img-top"
+     alt="{{ product.name }}"
+     style="height: 300px; object-fit: contain;">
+
+{% endif %}
+
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">{{ product.name }}</h5>
               <p class="mt-auto"><strong>${{ product.price }}</strong></p>
