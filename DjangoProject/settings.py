@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure-@z$q375ar)y0j^@_$=o%u5g-q+11y%)kz7k2^zr)l_&k$7zedp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -47,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'allauth.account.middleware.AccountMiddleware',  # for django‑allauth
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -58,7 +58,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',            # project‑level templates
+            BASE_DIR / 'templates',  # project-level templates
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -76,7 +76,6 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -86,12 +85,11 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
@@ -100,54 +98,43 @@ CART_SESSION_ID = 'cart'
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE     = 'UTC'
-USE_I18N      = True
-USE_TZ        = True
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
+# Static files
 STATIC_URL = '/static/'
-
-# During development, Django will look here too:
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',             # <project_root>/static/
-]
-
-# For production `collectstatic`:
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# --------------------
-# django‑allauth settings
-# --------------------
+# django-allauth settings
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',           # default
-    'allauth.account.auth_backends.AuthenticationBackend', # allauth
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_SIGNUP_FIELDS      = ['email*', 'username*', 'password1*', 'password2*']
-
 LOGIN_REDIRECT_URL = '/'
 
+# Send all outgoing emails to the console in development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# --------------------
-# django‑payments dummy gateway config
-# --------------------
-PAYMENT_HOST     = 'localhost:8000'
+
+# django-payments dummy gateway config
+PAYMENT_HOST = 'localhost:8000'
 PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {}),
 }
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
