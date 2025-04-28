@@ -10,7 +10,11 @@ SECRET_KEY = 'django-insecure-@z$q375ar)y0j^@_$=o%u5g-q+11y%)kz7k2^zr)l_&k$7zedp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'cbuettner.pythonanywhere.com',
+]
 
 
 # Application definition
@@ -33,6 +37,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    # Third-party payments:
+    'payments',
 
     # Your apps:
     'accounts',
@@ -57,9 +64,7 @@ ROOT_URLCONF = 'DjangoProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'templates',  # project-level templates
-        ],
+        'DIRS': [BASE_DIR / 'templates'],  # project-level templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,3 +143,5 @@ PAYMENT_HOST = 'localhost:8000'
 PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {}),
 }
+
+
