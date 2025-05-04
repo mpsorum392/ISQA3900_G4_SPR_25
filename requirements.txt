@@ -1,6 +1,9 @@
 asgiref==3.8.1
-Django==5.1.7
+Django==5.1.8
 django-allauth==65.5.0
 django-carton==1.2.1
 pillow==11.1.0
 sqlparse==0.5.3
+django-payments==3.0.1
+selenium~=4.32.0
+django-phonenumber-field~=8.1.0
