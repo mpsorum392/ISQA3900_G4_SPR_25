@@ -1,0 +1,12 @@
+Subject: Your G4Threads Account Settings Have Changed
+
+Hi {{ user.first_name }},
+
+We wanted to let you know that recent changes were made to your G4Threads account on {{ timestamp|date:"F j, Y, g:i A" }}.
+
+If you updated your password, this is a confirmation that it was changed successfully.
+If you did *not* make this change, please reset your password immediately:
+https://your-domain.com/accounts/password/reset/
+
+Thank you for keeping your account secure.
+— The G4Threads Security Team

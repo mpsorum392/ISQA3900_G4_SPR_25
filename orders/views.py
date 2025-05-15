@@ -1,18 +1,18 @@
 from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
+from django.conf import settings
 
 from .models import Order, OrderItem
 from .forms import OrderCreateForm, CreditCardForm
 from cart.cart import Cart
 from billing.models import Payment
-
+from .emails import send_order_confirmation  # ← import the helper
 
 @staff_member_required
 def admin_order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'admin/orders/order/detail.html', {'order': order})
-
 
 def order_create(request):
     cart = Cart(request)
@@ -30,6 +30,11 @@ def order_create(request):
                 item['product'].quantity -= item['quantity']
                 item['product'].save()
             cart.clear()
+
+            # ─── send the confirmation email ────────────────────────
+            send_order_confirmation(order)
+            # ─────────────────────────────────────────────────────────
+
             return redirect('orders:checkout', order_id=order.id)
     else:
         form = OrderCreateForm()
@@ -39,21 +44,17 @@ def order_create(request):
         'form': form,
     })
 
-
 def checkout(request, order_id):
     """
-    Step 2: Show shipping form + fake‑CC form on GET,
+    Step 2: Show shipping form + fake-CC form on GET,
     process & immediately “confirm” payment on POST.
     """
     order = get_object_or_404(Order, id=order_id)
-
-    # Shipping form pre‑populated (so user can review/edit)
     ship_form = OrderCreateForm(instance=order)
 
     if request.method == 'POST':
         cc_form = CreditCardForm(request.POST)
         if cc_form.is_valid():
-            # 1) Create & confirm the dummy payment
             payment = Payment.objects.create(
                 order=order,
                 variant='default',
@@ -64,12 +65,10 @@ def checkout(request, order_id):
             )
             payment.change_status('confirmed')
 
-            # 2) Link & mark paid
             order.payment = payment
             order.paid    = True
             order.save()
 
-            # 3) Redirect to receipt
             return redirect('orders:receipt', order_id=order.id)
     else:
         cc_form = CreditCardForm()
@@ -79,7 +78,6 @@ def checkout(request, order_id):
         'form':    ship_form,
         'cc_form': cc_form,
     })
-
 
 def receipt(request, order_id):
     """

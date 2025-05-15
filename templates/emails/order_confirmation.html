@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Order #{{ order.id }} Confirmation</title>
+  </head>
+  <body style="font-family: sans-serif; line-height:1.5;">
+    <h2>Thank you for your order, {{ order.first_name }}!</h2>
+    <p><strong>Order Number:</strong> {{ order.id }}<br>
+       <strong>Date:</strong> {{ order.created|date:"F j, Y, g:i A" }}<br>
+       <strong>Total:</strong> ${{ order.get_total }}</p>
+
+    <h3>Shipping Address</h3>
+    <p>
+      {{ order.address_line1 }}<br>
+      {% if order.address_line2 %}{{ order.address_line2 }}<br>{% endif %}
+      {{ order.city }}, {{ order.state }} {{ order.postcode }}<br>
+      {{ order.country }}
+    </p>
+
+    <h3>Order Details</h3>
+    <table cellpadding="5" cellspacing="0" border="1">
+      <thead>
+        <tr>
+          <th>Product</th><th>Qty</th><th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.items.all %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td align="center">{{ item.quantity }}</td>
+          <td align="right">${{ item.price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p>We’ll let you know as soon as your order ships.
+    If you have any questions, reply to this email or contact <a href="mailto:support@g4threads.com">support@g4threads.com</a>.</p>
+
+    <p>Thanks for shopping with us!<br>
+    <em>The G4Threads Team</em></p>
+  </body>
+</html>

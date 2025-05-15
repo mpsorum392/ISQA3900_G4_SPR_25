@@ -1,0 +1,26 @@
+Subject: Your G4Threads Order #{{ order.id }} Confirmation
+
+Hi {{ order.first_name }},
+
+Thank you for your order at G4Threads!
+
+Order Number: {{ order.id }}
+Date: {{ order.created|date:"F j, Y, g:i A" }}
+Total: ${{ order.get_total }}
+
+Shipping Address:
+{{ order.address_line1 }}
+{% if order.address_line2 %}{{ order.address_line2 }}{% endif %}
+{{ order.city }}, {{ order.state }} {{ order.postcode }}
+{{ order.country }}
+
+Order Details:
+{% for item in order.items.all %}
+ - {{ item.product.name }}  x{{ item.quantity }}  @ ${{ item.price }} each
+{% endfor %}
+
+We’ll send you another email when your order ships.
+If you have any questions, reply to this email or contact our support team at support@g4threads.com.
+
+Thanks for shopping with us!
+— The G4Threads Team

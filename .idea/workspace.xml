@@ -5,15 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="416f311e-155b-49a0-8f38-f5b443030593" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ISQA3900_G4_SPR_25_upd.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ISQA3900_G4_SPR_25_upd.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/orders/emails.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/account_update.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/order_confirmation.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/order_confirmation.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/emails/sccount_update.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/Scripts/activate" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Scripts/activate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/pyvenv.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/pyvenv.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoProject/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/products/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/products/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/products/search_results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/products/search_results.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +28,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Unit Test" />
+        <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>

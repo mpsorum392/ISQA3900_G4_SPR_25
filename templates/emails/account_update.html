@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Account Settings Updated</title>
+  </head>
+  <body style="font-family:sans-serif;line-height:1.5;">
+    <h2>Hello {{ user.first_name }},</h2>
+    <p>This is a notification that your account settings were updated on <strong>{{ timestamp|date:"F j, Y, g:i A" }}</strong>.</p>
+
+    <p>If you changed your password, you’re all set! If you did <em>not</em> authorize this change, please reset it now:</p>
+    <p><a href="https://your-domain.com/accounts/password/reset/">Reset your password</a></p>
+
+    <p>Thank you for keeping your account secure.<br>
+    <em>The G4Threads Security Team</em></p>
+  </body>
+</html>
