@@ -1,5 +1,7 @@
 # products/views.py
+
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from .models import Category, Product
 
 def products_by_category(request, category_name):
@@ -11,12 +13,24 @@ def products_by_category(request, category_name):
     })
 
 def search(request):
-    q = request.GET.get('q', '')
-    results = Product.objects.filter(name__icontains=q) if q else []
+    raw_q = request.GET.get('q', '')
+    q     = raw_q.strip()
+
+    if q:
+        # search name OR description
+        results = Product.objects.filter(
+            Q(name__icontains=q) |
+            Q(description__icontains=q)
+        )
+        # <-- DEBUG OUTPUT (should appear in your runserver console) -->
+        print("🔍 SQL:", results.query)
+        print("📝 Count:", results.count())
+    else:
+        results = Product.objects.none()
+
     return render(request, 'products/search_results.html', {
-        'query': q,
+        'query': raw_q,
         'results': results,
     })
-
 
 

@@ -67,3 +67,11 @@ fi
 if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
     hash -r 2> /dev/null
 fi
+
+# SMTP creds for Django email
+export EMAIL_HOST="smtp.gmail.com"
+export EMAIL_PORT="587"
+export EMAIL_USE_TLS="True"
+export EMAIL_HOST_USER="cbuettner001@gmail.com"
+export EMAIL_HOST_PASSWORD="vsvwzmhhbmcnnnul"
+

@@ -1,38 +1,70 @@
-{# templates/cart/cart_detail.html #}
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
 <div class="container my-5">
   <h2>Your Cart</h2>
+
   {% if cart_items %}
     <table class="table">
       <thead>
         <tr>
           <th>Product</th>
-          <th>Quantity</th>
+          <th style="width:200px">Quantity</th>
           <th>Subtotal</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for item in cart_items %}
           <tr>
             <td>{{ item.product.name }}</td>
-            <td>{{ item.quantity }}</td>
+            <td>
+              <form
+                method="post"
+                action="{% url 'cart:cart_update' item.product.id %}"
+                class="d-flex"
+              >
+                {% csrf_token %}
+                <input
+                  type="number"
+                  name="quantity"
+                  value="{{ item.quantity }}"
+                  min="0"
+                  class="form-control form-control-sm me-2"
+                >
+                <button
+                  type="submit"
+                  class="btn btn-sm btn-outline-primary"
+                >
+                  Update
+                </button>
+              </form>
+            </td>
             <td>${{ item.subtotal }}</td>
+            <td>
+              <a
+                href="{% url 'cart:cart_remove' item.product.id %}"
+                class="btn btn-sm btn-outline-danger"
+                onclick="return confirm('Remove {{ item.product.name }} from cart?');"
+              >
+                Remove
+              </a>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
+
     <h4>Total: ${{ total }}</h4>
 
-    {# Update the URL to use the orders namespace #}
-    <a href="{% url 'orders:order_create' %}" class="btn btn-primary">
-      Proceed to Checkout
-    </a>
-    <a href="{% url 'home' %}" class="btn btn-primary">
-      Continue Shopping
-    </a>
+    <div class="mt-4">
+      <a href="{% url 'orders:order_create' %}" class="btn btn-primary">
+        Proceed to Checkout
+      </a>
+      <a href="{% url 'home' %}" class="btn btn-secondary">
+        Continue Shopping
+      </a>
+    </div>
+
   {% else %}
     <p>Your cart is empty.</p>
     <a href="{% url 'home' %}" class="btn btn-primary">
@@ -41,4 +73,5 @@
   {% endif %}
 </div>
 {% endblock %}
+
 
